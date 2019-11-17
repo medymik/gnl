@@ -82,11 +82,18 @@ int	index_of(char *str, char c)
 
 int	handler(int fd, char **str, char **line)
 {
-	if (fd < 0 || !line)
+	int ret;
+
+	if (fd < 0 || !line || !BUFFER_SIZE || BUFFER_SIZE < 0)
 		return (1);
-	if (!*str)
-		if (!(*str = malloc(BUFFER_SIZE + 1)))
+	if (!str[fd])
+	{
+		if (!(str[fd] = malloc(BUFFER_SIZE + 1)))
 			return (1);
+		if ((ret = read(fd, str[fd], 1)) == -1)
+			return (1);
+		str[fd][ret] = '\0';
+	}
 	return (0);
 }
 
@@ -147,6 +154,17 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (r);
 }
 
+void	join_and_free(char **str, char **buffer, char **line)
+{
+	char *tmp;
+
+	tmp = *str;
+	*str = ft_strjoin(*str, *buffer);
+	*line = *str;
+	free(*buffer);
+	free(tmp);
+}
+
 int	get_next_line(int fd, char **line)
 {
 	static char *str[4000];
@@ -154,21 +172,18 @@ int	get_next_line(int fd, char **line)
 	char *tmp;
 	int i = 0;
 
-	if (handler(fd, &str[fd], line))
+	if (handler(fd, str, line) == 1)
 		return (-1);
 	while ((i = index_of(str[fd], '\n')) == -1)
 	{
-		buffer = next_buffer(fd);
-		if (buffer == NULL)
+		//buffer = next_buffer(fd);
+		if (!(buffer = next_buffer(fd)))
 		{
+			*line = strdup(str[fd]);
 			free(str[fd]);
 			return (0);
 		}
-		tmp = str[fd];
-		str[fd] = ft_strjoin(str[fd], buffer);
-		*line = str[fd];
-		free(buffer);
-		free(tmp);
+		join_and_free(&str[fd], &buffer, line);
 	}
 	tmp = str[fd];
 	*line = ft_substr(&str[fd][0], 0, i);
@@ -176,7 +191,7 @@ int	get_next_line(int fd, char **line)
 	free(tmp);
 	return (1);
 }
-
+/*
 int	main(int argc, char **argv)
 {
 	char *line = NULL;
@@ -188,4 +203,4 @@ int	main(int argc, char **argv)
 		free(line);
 	}
 	return (0);
-}
+}*/
