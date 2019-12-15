@@ -99,4 +99,19 @@ char		*ft_strjoin(char const *s1, char const *s2)
 	}
 	str[ls1 + ls2] = '\0';
 	return (str);
+
+}
+
+int	index_of(char *s, char c)
+{
+	int i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == c)
+			return (i);
+		i++;
+	}
+	return (-1);
 }
