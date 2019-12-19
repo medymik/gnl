@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mymik <mymik@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mymik <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/18 15:49:36 by mymik             #+#    #+#             */
-/*   Updated: 2019/12/17 14:24:04 by mymik            ###   ########.fr       */
+/*   Created: 2019/12/17 15:02:57 by mymik             #+#    #+#             */
+/*   Updated: 2019/12/17 15:03:00 by mymik            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 size_t		ft_strlen(const char *s)
 {
